@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
-import { prop, propEq, pathOr, complement, path, pipe, flatten, map } from 'ramda';
+import { prop, pathEq, pathOr, complement, path, pipe, flatten, map } from 'ramda';
 import * as moment from 'moment';
 
 import * as worklogsListActions from '../actions/worklogs-list.actions';
@@ -10,7 +10,7 @@ import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.se
 
 const toJson = (response: any) => response.json();
 const getIssuesProp = pathOr([], [ 'issues' ]);
-const isCurrentUser = (account: any) => complement(propEq('username', account.username));
+const isCurrentUser = (account: any) => pathEq([ 'author', 'name' ], account.username);
 
 function compareDates(min, max) {
   return (worklogs) => worklogs
@@ -62,9 +62,7 @@ export class WorklogsListEffects {
       .getWroklogs(key)
       .map(toJson)
       .withLatestFrom(this._account$)
-      .map(([ response, account ]) => {
-        return { ...response, worklogs: response.worklogs.filter(isCurrentUser(account)) };
-      });
+      .map(([ response, account ]) => ({ ...response, worklogs: response.worklogs.filter(isCurrentUser(account)) }));
   }
 
   private _fetchWorklogsList$(filters: any) {
