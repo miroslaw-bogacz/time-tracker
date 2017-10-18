@@ -1,0 +1,21 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.edit {
+  width: 100%;
+  padding: 9px 10px;
+  top: 0;
+  bottom: 0;
+  right: 101%;
+  position: absolute;
+  background: #fff;
+  display: block;
+  transition: .3s all ease-in-out;
+  overflow: hidden;
+
+  &.show {
+    right: 0;
+  }
+}

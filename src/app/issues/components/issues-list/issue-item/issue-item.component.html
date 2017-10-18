@@ -1,0 +1,17 @@
+<div class="d-flex w-100 justify-content-between">
+  <p class="title">
+    {{ issue.key }} - {{ issue.fields.summary }}
+    <small class="text-muted" *ngIf="issue.fields.parent as parent">
+      {{ parent.fields.summary }}
+    </small>
+  </p>
+  <small>{{ timeSpent$ | async }}</small>
+</div>
+<div class="d-flex w-100 justify-content-between">
+  <div>
+    <small *ngIf="issue.fields.assignee as assignee">
+      <i class="fa fa-user" aria-hidden="true"></i> {{ assignee.displayName }}
+    </small>
+  </div>
+  <button class="btn btn-sm btn-success" (click)="start()" [disabled]="worklog$ | async"><i class="fa fa-play" aria-hidden="true"></i></button>
+</div>

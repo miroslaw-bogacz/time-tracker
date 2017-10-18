@@ -1,0 +1,25 @@
+<div class="d-flex w-100 justify-content-between">
+  <p class="title">
+    <strong>{{ timeSpent$ | async }}</strong> |
+
+    {{ worklog.key }} - {{ worklog.summary }}
+
+    <small class="text-muted" *ngIf="worklog.parent">
+      {{ worklog.parent }}
+    </small>
+  </p>
+
+  <div>
+    <button class="btn btn-sm btn-success"
+            (click)="onResumeClick()"
+            *ngIf="isPaused"><i class="fa fa-play" aria-hidden="true"></i></button>
+
+    <button class="btn btn-sm btn-warning"
+            (click)="onPauseClick()"
+            *ngIf="(!isPaused && isTracked)"><i class="fa fa-pause" aria-hidden="true"></i></button>
+
+    <button class="btn btn-sm btn-danger"
+            (click)="onStopClick()"
+            *ngIf="(isTracked || isPaused)"><i class="fa fa-stop" aria-hidden="true"></i></button>
+  </div>
+</div>

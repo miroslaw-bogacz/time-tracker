@@ -1,0 +1,10 @@
+<div *ngIf="worklogsList$ | async as worklogsGroups">
+  <ul class="list-group" *ngFor="let worklogsGroup of worklogsGroups | orderByDate: 'group'">
+    <li class="list-group-item active">{{ worklogsGroup.group }}</li>
+    <li class="list-group-item flex-column align-items-start"
+        *ngFor="let worklog of worklogsGroup.worklogs  | orderByDate: 'started'"
+    >
+      <wl-worklog-item [worklog]="worklog" (saveClick)="onSaveClick($event)"></wl-worklog-item>
+    </li>
+  </ul>
+</div>

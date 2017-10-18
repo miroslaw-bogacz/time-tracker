@@ -1,0 +1,11 @@
+<ul class="list-group">
+  <li class="list-group-item rounded-0 flex-column align-items-start"
+      *ngFor="let worklog of worklogsList$ | async; trackBy: trackById"
+  >
+    <is-worklog-item [worklog]="worklog"
+                     (stopTrackingClick)="stopTracking($event)"
+                     (resumeTrackingClick)="resumeTracking($event)"
+                     (pauseTrackingClick)="pauseTracking($event)"
+    ></is-worklog-item>
+  </li>
+</ul>

@@ -1,0 +1,14 @@
+<div class="sidebar">
+  <is-projects-list></is-projects-list>
+</div>
+
+<div class="content">
+  <is-filters></is-filters>
+
+  <div class="list">
+    <is-worklogs-list></is-worklogs-list>
+    <is-issues-list></is-issues-list>
+  </div>
+</div>
+
+<jtt-spinner *ngIf="isPending$ | async"></jtt-spinner>

@@ -1,0 +1,34 @@
+<div class="d-flex w-100 justify-content-between">
+  <div class="edit" [class.show]="isVisible">
+    <div class="row">
+      <div class="col col-2">
+        <input type="text" [formControl]="timeSpentControl" class="form-control">
+      </div>
+
+      <div class="col col-4">
+        <input type="date" [formControl]="dateControl" class="form-control">
+      </div>
+
+      <div class="col col-6">
+        <button class="btn btn-success"
+                (click)="onSaveClick()"
+                [disabled]="timeSpentControl.invalid || dateControl.invalid"
+        ><i class="fa fa-save"></i></button>
+        <button class="btn btn-danger" (click)="hideEdit()"><i class="fa fa-ban"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    <button class="btn btn-sm btn-info" (click)="showEdit()"><i class="fa fa-pencil"></i></button>
+    {{ worklog.issue.key }} - {{ worklog.issue.fields.summary }}
+
+    <small class="text-muted" *ngIf="worklog.issue.fields.parent as parent">
+      {{ parent.fields.summary }}
+    </small>
+  </p>
+
+  <span>
+    {{ timeSpent }}
+  </span>
+</div>

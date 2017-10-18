@@ -1,0 +1,4 @@
+<is-project-item *ngFor="let project of projectsList$ | async; trackBy: trackByKey"
+                 [project]="project"
+                 (changeProject)="onChangeProject($event)"
+></is-project-item>

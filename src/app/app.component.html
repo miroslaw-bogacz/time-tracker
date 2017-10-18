@@ -1,0 +1,12 @@
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a [routerLink]="[ '/issues' ]" routerLinkActive="btn-primary" class="btn btn-sm">Issues</a>
+  </li>
+  <li class="nav-item">
+    <a [routerLink]="[ '/worklogs' ]" routerLinkActive="btn-primary" class="btn btn-sm">Work logs</a>
+  </li>
+</ul>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

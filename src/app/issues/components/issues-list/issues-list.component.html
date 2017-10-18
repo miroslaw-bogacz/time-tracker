@@ -1,0 +1,7 @@
+<ul class="list-group">
+  <li class="list-group-item list-group-item-action flex-column rounded-0 align-items-start"
+      *ngFor="let issue of issuesList$ | async"
+  >
+    <is-issue-item [issue]="issue" (startTimeSpent)="onStartTimeSpent($event)"></is-issue-item>
+  </li>
+</ul>
