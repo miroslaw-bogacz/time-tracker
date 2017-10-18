@@ -29,15 +29,8 @@ export class WorklogItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.timeSpentControl = new FormControl(
-      null,
-      [ Validators.pattern(timeHoursAndMinutes), Validators.required ],
-    );
-
-    this.dateControl = new FormControl(
-      moment(this.worklog.started).format('YYYY-MM-DD'),
-      [ Validators.required ],
-    );
+    this.timeSpentControl = new FormControl(null, Validators.pattern(timeHoursAndMinutes));
+    this.dateControl = new FormControl(moment(this.worklog.started).format('YYYY-MM-DD'));
   }
 
   public onSaveClick(): void {
