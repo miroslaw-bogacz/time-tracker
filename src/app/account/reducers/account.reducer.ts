@@ -10,6 +10,9 @@ export function accountReducer(state: IAccountState = initialState, action: acco
     case accountActions.UPDATE:
       return { ...state, model: action.payload };
 
+    case accountActions.LOGOUT:
+      return { ...initialState };
+
     default:
       return state;
   }

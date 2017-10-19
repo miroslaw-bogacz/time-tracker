@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { JiraRequestOptionsService } from './shared/jira-api/services/jira-request-options.service';
 import { getHeaderOptionsByAccount } from './core/helpers/get-header-options-by-account.helper';
 import { IJiraRequestOptions } from './shared/jira-api/models/jira-request-options.interface';
+import * as accountActions from './account/actions/account.actions';
 
 @Component({
   selector: 'jtt-root',
@@ -21,5 +22,9 @@ export class AppComponent implements OnInit {
       .map(getHeaderOptionsByAccount)
       .do((account: IJiraRequestOptions) => this._jiraRequestOptionsService.setOptions(account))
       .subscribe()
+  }
+
+  public logout(): void {
+    this._store.dispatch(new accountActions.Logout())
   }
 }
