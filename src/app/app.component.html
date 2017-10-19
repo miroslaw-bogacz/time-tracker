@@ -1,4 +1,4 @@
-<ul class="nav justify-content-end">
+<ul class="nav justify-content-end" *ngIf="hasAccount$ | async">
   <li class="nav-item">
     <a [routerLink]="[ '/issues' ]" routerLinkActive="btn-primary" class="btn btn-sm">Issues</a>
   </li>
