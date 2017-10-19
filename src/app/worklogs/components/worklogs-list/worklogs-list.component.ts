@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { path, groupBy } from 'ramda';
@@ -10,6 +10,7 @@ import * as worklogsListActions from '../../actions/worklogs-list.actions';
   selector: 'wl-worklogs-list',
   templateUrl: './worklogs-list.component.html',
   styleUrls: [ './worklogs-list.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorklogsListComponent implements OnInit {
 
