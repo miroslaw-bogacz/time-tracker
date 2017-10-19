@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
 import { JiraRequestOptionsService } from './shared/jira-api/services/jira-request-options.service';
 import { getHeaderOptionsByAccount } from './core/helpers/get-header-options-by-account.helper';
 import { IJiraRequestOptions } from './shared/jira-api/models/jira-request-options.interface';
@@ -15,6 +17,11 @@ export class AppComponent implements OnInit {
     private _store: Store<any>,
     private _jiraRequestOptionsService: JiraRequestOptionsService,
   ) {}
+
+  public get hasAccount$(): Observable<boolean> {
+    return this._store.select('account', 'account', 'model')
+      .map((account: any) => !!account);
+  }
 
   public ngOnInit(): void {
     this._store.select('account', 'account', 'model')
