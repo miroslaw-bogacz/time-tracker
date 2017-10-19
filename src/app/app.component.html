@@ -1,9 +1,12 @@
-<ul class="nav nav-pills">
+<ul class="nav justify-content-end">
   <li class="nav-item">
     <a [routerLink]="[ '/issues' ]" routerLinkActive="btn-primary" class="btn btn-sm">Issues</a>
   </li>
   <li class="nav-item">
     <a [routerLink]="[ '/worklogs' ]" routerLinkActive="btn-primary" class="btn btn-sm">Work logs</a>
+  </li>
+  <li class="nav-item">
+    <a [routerLink]="[ '/account' ]" (click)="logout()" class="btn btn-sm text-danger">Logout</a>
   </li>
 </ul>
 
