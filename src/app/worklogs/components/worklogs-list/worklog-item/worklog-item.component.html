@@ -2,7 +2,7 @@
   <div class="edit" [class.show]="isVisible">
     <div class="row">
       <div class="col col-2">
-        <input type="text" [formControl]="timeSpentControl" class="form-control">
+        <input type="text" [formControl]="timeSpentControl" class="form-control" title="example 15h 30m">
       </div>
 
       <div class="col col-4">
@@ -14,6 +14,7 @@
                 (click)="onSaveClick()"
                 [disabled]="timeSpentControl.invalid || dateControl.invalid"
         ><i class="fa fa-save"></i></button>
+
         <button class="btn btn-danger" (click)="hideEdit()"><i class="fa fa-ban"></i></button>
       </div>
     </div>
