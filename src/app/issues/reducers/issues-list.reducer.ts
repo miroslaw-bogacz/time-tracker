@@ -14,11 +14,6 @@ const mergeIssuesWithParents = (parents, issues) =>
     ),
   );
 
-const fetchParentsListSuccess = (payload) =>
-  payload.parents
-    ? mergeIssuesWithParents(payload.parents, payload.issues)
-    : payload.issues;
-
 const updateOneTimeSpent = (payload) =>
   (issue: any) => issue.id === payload.id
     ? assocPath([ 'fields', 'timespent' ], issue.fields.timespent + (payload.timeSpent / 1000), issue)
@@ -27,7 +22,7 @@ const updateOneTimeSpent = (payload) =>
 const initialState: IIssuesListState = {
   isPending: false,
   isError: false,
-  model: [],
+  model: {},
   errors: [],
 };
 
@@ -40,22 +35,23 @@ export function issuesListReducer(
       return { ...initialState, isPending: true };
 
     case issuesListActions.FETCH_LIST_SUCCESS:
-      return { ...initialState };
+      return { ...initialState, model: action.payload };
 
     case issuesListActions.FETCH_LIST_ERROR:
       return { ...initialState, isError: true };
 
-    case issuesListActions.FETCH_PARENTS_LIST:
-      return { ...initialState, isPending: true };
+    case issuesListActions.FETCH_MORE_LIST:
+      return { ...state, isPending: true };
 
-    case issuesListActions.FETCH_PARENTS_LIST_SUCCESS:
-      return { ...initialState, model: fetchParentsListSuccess(action.payload) };
-
-    case issuesListActions.FETCH_PARENTS_LIST_ERROR:
-      return { ...initialState, isError: true };
+    case issuesListActions.FETCH_MORE_LIST_SUCCESS:
+      return {
+        ...state,
+        isPending: false,
+        model: { ...action.payload, issues: [ ...state.model.issues, ...action.payload.issues ] },
+      };
 
     case issuesListActions.UPDATE_ONE_TIME_SPENT:
-      return { ...state, model: state.model.map(updateOneTimeSpent(action.payload)) };
+      return { ...state, model: { ...state.model, issues: state.model.issues.map(updateOneTimeSpent(action.payload)) } };
 
     default:
       return state;

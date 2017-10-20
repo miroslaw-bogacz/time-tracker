@@ -19,6 +19,7 @@ import { WorklogsListComponent } from './components/worklogs-list/worklogs-list.
 import { WorklogItemComponent } from './components/worklogs-list/worklog-item/worklog-item.component';
 import { WorklogsListEffects } from './effects/worklogs-list.effects';
 import { SpinnerModule } from '../shared/spinner/spinner.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { SpinnerModule } from '../shared/spinner/spinner.module';
     StoreModule.forFeature('issues', issuesReducers),
     EffectsModule.forFeature([ ProjectsListEffects, IssuesListEffects, WorklogsListEffects ]),
     SpinnerModule,
+    InfiniteScrollModule,
   ],
 
   declarations: [

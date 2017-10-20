@@ -5,9 +5,14 @@
 <div class="content">
   <is-filters></is-filters>
 
-  <div class="list">
+  <div class="list"
+       infiniteScroll
+       (scrolled)="scrolled$.next()"
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       [scrollWindow]="false">
     <is-worklogs-list></is-worklogs-list>
-    <is-issues-list></is-issues-list>
+    <is-issues-list [scrolled]="scrolled$"></is-issues-list>
   </div>
 </div>
 

@@ -4,9 +4,9 @@ export const FETCH_LIST = '[Issues] [Issues list] fetch list';
 export const FETCH_LIST_SUCCESS = '[Issues] [Issues list] fetch list success';
 export const FETCH_LIST_ERROR = '[Issues] [Issues list] fetch list error';
 
-export const FETCH_PARENTS_LIST = '[Issues] [Issues list] fetch parents list';
-export const FETCH_PARENTS_LIST_SUCCESS = '[Issues] [Issues list] fetch parents list success';
-export const FETCH_PARENTS_LIST_ERROR = '[Issues] [Issues list] fetch parents list error';
+export const FETCH_MORE_LIST = '[Issues] [Issues list] fetch more list';
+export const FETCH_MORE_LIST_SUCCESS = '[Issues] [Issues list] fetch list more success';
+export const FETCH_MORE_LIST_ERROR = '[Issues] [Issues list] fetch list more error';
 
 export const UPDATE_ONE_TIME_SPENT = '[Issues] [Issues list] update one';
 
@@ -25,18 +25,18 @@ export class FetchListError implements Action {
   constructor(public payload: any) {}
 }
 
-export class FetchParentsList implements Action {
-  readonly type = FETCH_PARENTS_LIST;
+export class FetchMoreList implements Action {
+  readonly type = FETCH_MORE_LIST;
   constructor(public payload: any) {}
 }
 
-export class FetchParentsListSuccess implements Action {
-  readonly type = FETCH_PARENTS_LIST_SUCCESS;
+export class FetchMoreListSuccess implements Action {
+  readonly type = FETCH_MORE_LIST_SUCCESS;
   constructor(public payload: any) {}
 }
 
-export class FetchParentsListError implements Action {
-  readonly type = FETCH_PARENTS_LIST_ERROR;
+export class FetchMoreListError implements Action {
+  readonly type = FETCH_MORE_LIST_ERROR;
   constructor(public payload: any) {}
 }
 
@@ -49,7 +49,7 @@ export type IssuesListActions =
   FetchList
   | FetchListSuccess
   | FetchListError
-  | FetchParentsList
-  | FetchParentsListSuccess
-  | FetchParentsListError
+  | FetchMoreList
+  | FetchMoreListSuccess
+  | FetchMoreListError
   | UpdateOneTimeSpent;

@@ -21,16 +21,11 @@
   left: 90px;
   right: 0;
 
-  is-filters {
-    position: relative;
-    z-index: 2;
-  }
-
   .list {
     width: 100%;
     display: block;
     position: absolute;
-    top: 47px;
+    top: 57px;
     bottom: 0;
     overflow: auto;
     z-index: 1;

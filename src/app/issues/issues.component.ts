@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { path } from 'ramda';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'is-issues',
@@ -10,7 +11,9 @@ import { path } from 'ramda';
 })
 export class IssuesComponent implements OnInit {
 
-  public isPending$: Observable<boolean>
+  public isPending$: Observable<boolean>;
+
+  public scrolled$: Subject<null> = new Subject();
 
   constructor(
     private _store: Store<any>,

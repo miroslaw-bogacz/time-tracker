@@ -1,6 +1,6 @@
 export interface IIssuesListState {
   isPending: boolean;
   isError: boolean;
-  model: any[];
+  model: any;
   errors: any[];
 }

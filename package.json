@@ -36,6 +36,7 @@
     "moment": "^2.19.1",
     "ngrx-store-localstorage": "^0.2.3",
     "ngx-electron": "^1.0.3",
+    "ngx-infinite-scroll": "^0.5.2",
     "ramda": "^0.25.0",
     "rxjs": "^5.1.0",
     "tslint-eslint-rules": "^4.1.1",
