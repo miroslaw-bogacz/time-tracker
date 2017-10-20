@@ -1,6 +1,6 @@
 import { JiraTimeTrackerDesktopPage } from './app.po';
 
-describe('jira-time-tracker-desktop App', () => {
+describe('time-tracker App', () => {
   let page: JiraTimeTrackerDesktopPage;
 
   beforeEach(() => {
