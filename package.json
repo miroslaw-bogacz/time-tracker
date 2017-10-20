@@ -1,6 +1,6 @@
 {
   "name": "jira-time-tracker-desktop",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "license": "MIT",
   "scripts": {
     "start": "npm run build:watch",
