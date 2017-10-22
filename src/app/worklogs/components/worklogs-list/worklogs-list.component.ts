@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { path, groupBy } from 'ramda';
+import { path, groupBy, equals, complements } from 'ramda';
 import * as moment from 'moment';
 
 import * as worklogsListActions from '../../actions/worklogs-list.actions';
@@ -16,15 +16,21 @@ export class WorklogsListComponent implements OnInit {
 
   public worklogsList$: Observable<any[]>;
 
+
   public isPending$: Observable<boolean>;
+
+  private filters$: Observable<any>;
 
   constructor(
     private _store: Store<any>,
   ) { }
 
   ngOnInit() {
-    this._store.select(path([ 'worklogs', 'filters', 'model' ]))
+    this.filters$ = this._store.select(path([ 'worklogs', 'filters', 'model' ]));
+
+    this.filters$
       .filter((filters) => filters.from && filters.to)
+      .distinctUntilChanged(equals)
       .map((filters: any) => new worklogsListActions.FetchWorklogsList(filters))
       .subscribe((action: any) => this._store.dispatch(action));
 
