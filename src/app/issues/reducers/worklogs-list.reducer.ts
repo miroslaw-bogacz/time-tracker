@@ -9,7 +9,7 @@ const createActivity = () => ({ start: new Date().getTime(), stop: null, spent: 
 const stopActivity = (activity: any) => {
   const currentTime = new Date().getTime();
 
-  return { ...activity, stop: currentTime, spent: currentTime - activity.start }
+  return { ...activity, stop: currentTime, spent: currentTime - activity.start };
 };
 
 const startTracking = (id: string): any =>

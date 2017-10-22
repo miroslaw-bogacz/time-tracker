@@ -1,0 +1,20 @@
+.user-avatar-container {
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  padding: .25rem .5rem;
+  width: 100%;
+}
+
+.user-avatar-img {
+  border-radius: 50%;
+  padding-right: 2x;
+}
+
+.user-avatar-name {
+  font-size: .875rem;
+  line-height: 1.5;
+  padding-left: 2px;
+  align-self: center;
+}

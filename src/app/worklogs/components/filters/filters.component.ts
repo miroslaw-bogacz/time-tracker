@@ -23,7 +23,7 @@ export class FiltersComponent implements OnInit {
     this.form.valueChanges
       .debounceTime(300)
       .map((filters: any) => new filtersActions.Update(filters))
-      .subscribe((action: any) => this._store.dispatch(action))
+      .subscribe((action: any) => this._store.dispatch(action));
   }
 
   private _getForm(): FormGroup {

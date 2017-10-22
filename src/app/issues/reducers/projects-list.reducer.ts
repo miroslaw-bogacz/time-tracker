@@ -2,7 +2,7 @@ import * as projectsListActions from '../actions/projects-list.actions';
 import { IProjectsListState } from '../models/i-projects-list-state.model';
 
 function switchSelectedProp(isSelected: boolean) {
-  return (project: any) => ({ ...project, isSelected })
+  return (project: any) => ({ ...project, isSelected });
 }
 
 function changeProject(state: IProjectsListState, payload: string) {

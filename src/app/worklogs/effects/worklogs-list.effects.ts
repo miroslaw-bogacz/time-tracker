@@ -40,7 +40,7 @@ export class WorklogsListEffects {
     .switchMap(this._syncWorklog$.bind(this));
 
   private get _account$(): Observable<any> {
-    return this._store.select(path([ 'account', 'account', 'model' ]))
+    return this._store.select(path([ 'account', 'account', 'model' ]));
   }
 
   constructor(

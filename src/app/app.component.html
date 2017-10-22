@@ -1,4 +1,4 @@
-<ul class="nav justify-content-end" *ngIf="hasAccount$ | async">
+<ul class="nav justify-content-end" *ngIf="hasAccount">
   <li class="nav-item">
     <a [routerLink]="[ '/issues' ]" routerLinkActive="btn-primary" class="btn btn-sm">Issues</a>
   </li>
@@ -8,6 +8,7 @@
   <li class="nav-item">
     <a [routerLink]="[ '/account' ]" (click)="logout()" class="btn btn-sm text-danger">Logout</a>
   </li>
+  <us-user-avatar [user]="currentUser"></us-user-avatar>
 </ul>
 
 <div class="content">
