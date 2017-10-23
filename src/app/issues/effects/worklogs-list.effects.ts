@@ -49,18 +49,20 @@ export class WorklogsListEffects {
   }
 
   private _sync(worklog: any): Observable<Action> {
-    const data: any = {
-      timeSpentSeconds: Math.max(Math.round(reduceActivitiesToTimeSpent(worklog.activities) / 1000), 60),
-      started: worklog.started,
-    };
-    const timeSpent: number = reduceActivitiesToTimeSpent(worklog.activities);
+    const { started, activities, id } = worklog;
+    const timeSpentSeconds = Math.max(Math.round(reduceActivitiesToTimeSpent(activities) / 1000), 60);
+    const data: any = { timeSpentSeconds, started };
+    const timeSpent: number = reduceActivitiesToTimeSpent(activities);
 
-    return this._jiraIssuesService.createWorklog(worklog.id, data)
+    return this._jiraIssuesService.createWorklog(id, data)
       .concatMap(() => [
         new worklogsListActions.SyncSuccess(worklog.id),
         new worklogsListActions.Remove(worklog.id),
         new issuesListActions.UpdateOneTimeSpent({ id: worklog.id, timeSpent: Math.max(timeSpent, 60) }),
       ])
-      .catch(() => Observable.of(new worklogsListActions.SyncSuccess(null)));
+      .catch((error: any) => Observable.from([
+        new worklogsListActions.SyncError(error.json()),
+        new worklogsListActions.PauseTracking(id),
+      ]));
   }
 }

@@ -20,6 +20,7 @@ export class FetchWorklogsListSuccess implements Action {
 
 export class FetchWorklogsListError implements Action {
   readonly type = FETCH_WORKLOGS_LIST_ERROR;
+  constructor(public payload: any) {}
 }
 
 export class SyncWorklog implements Action {

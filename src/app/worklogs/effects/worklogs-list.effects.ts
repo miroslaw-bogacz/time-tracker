@@ -8,7 +8,14 @@ import * as moment from 'moment';
 import * as worklogsListActions from '../actions/worklogs-list.actions';
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
 
-const toJson = (response: any) => response.json();
+function toJson(response: any) {
+  try {
+    return response.json();
+  } catch (error) {
+    return error;
+  }
+}
+
 const getIssuesProp = pathOr([], [ 'issues' ]);
 const isCurrentUser = (account: any) => pathEq([ 'author', 'name' ], account.username);
 
@@ -50,10 +57,10 @@ export class WorklogsListEffects {
   ) {}
 
   private _fetchIssues$(from: string, to: string) {
-    return this._jiraIssuesService.getList(
-      `worklogDate >=  '${from}' AND worklogDate <= '${to}' AND worklogAuthor = currentUser()`,
-      { maxResults: 1000, fields: '' },
-    )
+    const jql = `worklogDate >=  '${from}' AND worklogDate <= '${to}' AND worklogAuthor = currentUser()`;
+    const urlQuery = { maxResults: 1000, fields: '' };
+
+    return this._jiraIssuesService.getList(jql, urlQuery)
       .map(pipe(toJson, getIssuesProp));
   }
 
@@ -83,10 +90,12 @@ export class WorklogsListEffects {
   }
 
   private _syncWorklog$(worklog: any) {
-    return this._jiraIssuesService.putWorklog(worklog.issueId, worklog.id, {
-      started: worklog.started,
-      timeSpentSeconds: worklog.timeSpentSeconds,
-    })
-      .map(response => new worklogsListActions.SyncWorklogSuccess(response.json()));
+    const { SyncWorklogSuccess, SyncWorklogError } = worklogsListActions;
+    const { issueId, id, started, timeSpentSeconds } = worklog;
+    const worklogData = { started, timeSpentSeconds };
+
+    return this._jiraIssuesService.putWorklog(issueId, id, worklogData)
+      .map(response => new SyncWorklogSuccess(toJson(response)))
+      .catch(error => Observable.of(new SyncWorklogError(toJson(error))));
   }
 }
