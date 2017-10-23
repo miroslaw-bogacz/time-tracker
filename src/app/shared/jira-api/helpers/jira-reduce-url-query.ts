@@ -5,5 +5,5 @@ export function jiraReduceUrlQuery(jqlParams: any) {
     const urlQuery: string = toUrlQuery(jqlParams);
 
     return type.replace('{urlQuery}', urlQuery);
-  }
-};
+  };
+}

@@ -34,7 +34,7 @@ export class ProjectsListComponent implements OnInit {
   }
 
   public onChangeProject(projectKey: string): void {
-    this._store.dispatch(new projectsListActions.ChangeProject(projectKey))
+    this._store.dispatch(new projectsListActions.ChangeProject(projectKey));
   }
 
   public trackByKey(index: number, item: any): string {

@@ -10,5 +10,5 @@ export function getHeaderOptionsByAccount(options): IJiraRequestOptions {
     domain: host,
     authentication: 'Basic Auth',
     token: options.token,
-  }
+  };
 }

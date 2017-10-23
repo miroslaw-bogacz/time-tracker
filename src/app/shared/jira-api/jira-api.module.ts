@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { JiraService } from './services/jira.service';
-import { JiraRequestOptionsService } from './services/jira-request-options.service';
-import { JiraIssuesService } from './services/jira-issues.service';
-import { JiraProjectsService } from './services/jira-projects.service';
+import {
+  JiraService, JiraRequestOptionsService, JiraUserService,
+  JiraIssuesService, JiraProjectsService,
+} from './services';
 import { Http, HttpModule } from '@angular/http';
 
 @NgModule({
@@ -21,6 +21,7 @@ import { Http, HttpModule } from '@angular/http';
     JiraRequestOptionsService,
     JiraIssuesService,
     JiraProjectsService,
+    JiraUserService,
   ],
 })
 export class JiraApiModule { }

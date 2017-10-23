@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { UserModule } from './../user/user.module';
 import { IssuesRoutingModule } from './issues-routing.module';
 import { IssuesComponent } from './issues.component';
 import { issuesReducers } from './reducers/index.reducers';
@@ -31,6 +32,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     EffectsModule.forFeature([ ProjectsListEffects, IssuesListEffects, WorklogsListEffects ]),
     SpinnerModule,
     InfiniteScrollModule,
+    UserModule,
   ],
 
   declarations: [

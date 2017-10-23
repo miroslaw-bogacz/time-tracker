@@ -6,5 +6,5 @@ export function jiraReduceUrlData(data: string) {
 
       return !!value ? previous.replace(/({.*?})/, value) : previous;
     }, type);
-  }
+  };
 }
