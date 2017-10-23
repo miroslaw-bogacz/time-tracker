@@ -29,12 +29,16 @@ export class CreateAccountEffects {
   ) {}
 
   private _setApiOptions(options): void {
+    const { app } = this._electron.remote.require('electron');
     const fs = this._electron.remote.require('fs');
-    const path = location.pathname
-      .replace('index.html', '')
-      .replace('app.asar', '');
+    const path = app.getPath('userData');
 
-    fs.writeFileSync(path + 'domain', options.www);
+
+    try {
+      fs.writeFileSync(path + '/domain', options.www);
+    } catch (error) {
+      console.log(error);
+    }
 
     this._jiraRequestOptionsService.setOptions(getHeaderOptionsByAccount(options));
   }

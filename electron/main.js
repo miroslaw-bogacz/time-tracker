@@ -27,7 +27,7 @@ function createWindow () {
   };
 
   session.defaultSession.webRequest.onBeforeSendHeaders(httpfilter, function(details, callback) {
-    const dir = __dirname.replace('app.asar', '');
+    const dir = app.getPath('userData');
     const domain = fs.existsSync(dir + '/domain') ? fs.readFileSync(dir + '/domain', 'utf8') : '';
 
     details.requestHeaders['Origin'] = domain;
