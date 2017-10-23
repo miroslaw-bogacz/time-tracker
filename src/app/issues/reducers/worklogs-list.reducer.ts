@@ -3,6 +3,7 @@ import { complement, propEq } from 'ramda';
 
 import * as worklogsListActions from '../actions/worklogs-list.actions';
 import * as worklogStatues from '../helpers/configs/worklog-statuses.config';
+import { getErrorsFromPayload } from '../../core/helpers/get-errors-from-payload';
 
 const createActivity = () => ({ start: new Date().getTime(), stop: null, spent: null });
 
@@ -41,7 +42,9 @@ const pauseTracking = (id: string): any =>
 
 const initialState: IWorklogsListState = {
   isPending: false,
+  isError: false,
   model: [],
+  errors: [],
 };
 
 export function worklogsListReducer(
@@ -74,7 +77,10 @@ export function worklogsListReducer(
       return { ...state, isPending: true };
 
     case worklogsListActions.SYNC_SUCCESS:
-      return { ...state, isPending: false };
+      return { ...state, isPending: false, isError: false, errors: [] };
+
+    case worklogsListActions.SYNC_ERROR:
+      return { ...state, isPending: false, isError: true, errors: getErrorsFromPayload(action.payload) };
 
     default:
       return state;
