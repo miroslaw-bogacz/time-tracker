@@ -1,0 +1,12 @@
+<div *ngFor="let message of messages$ | async"
+     class="alert alert-dismissible"
+     role="alert"
+     [class.alert-success]="message.type === 'success'"
+     [class.alert-danger]="message.type === 'error'"
+>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="onCloseClick(message.uuid)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <p class="mb-0"><b>{{ message.title }}</b> {{ message.content }}</p>
+</div>

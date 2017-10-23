@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/';
 import { prop } from 'ramda';
+import { ElectronService } from 'ngx-electron';
 
 import * as createActions from '../actions/create-account.actions';
 import * as accountActions from '../actions/account.actions';
+import * as toastMessagesListActions from '../../shared/toast-messages/actions/toast-messages.actions';
 import { JiraRequestOptionsService } from '../../shared/jira-api/services/jira-request-options.service';
-import { JiraProjectsService } from '../../shared/jira-api/services/jira-projects.service';
+import { JiraUserService } from '../../shared/jira-api/services/jira-user.service';
 import { getHeaderOptionsByAccount } from '../../core/helpers/get-header-options-by-account.helper';
-import { ElectronService } from 'ngx-electron';
 
 @Injectable()
 export class CreateAccountEffects {
@@ -24,7 +25,7 @@ export class CreateAccountEffects {
     private _actions$: Actions,
     private _router: Router,
     private _jiraRequestOptionsService: JiraRequestOptionsService,
-    private _jiraProjectsService: JiraProjectsService,
+    private _jiraUserService: JiraUserService,
     private _electron: ElectronService,
   ) {}
 
@@ -44,12 +45,16 @@ export class CreateAccountEffects {
   }
 
   private _verification(account): Observable<Action> {
-    return this._jiraProjectsService.getList()
+    return this._jiraUserService.getCurrentUser()
       .concatMap(response => Observable.from([
         new createActions.VerificationAccountSuccess(),
         new accountActions.Update(account),
+        new toastMessagesListActions.AddSuccess({ content: 'Your account has been added' }),
       ]))
-      .catch(error => Observable.of(new createActions.VerificationAccountError(error)))
+      .catch(error => Observable.from([
+        new createActions.VerificationAccountError(error),
+        new toastMessagesListActions.AddError({ content: `Status: ${error.status} Something was wrong` }),
+      ]))
       .do(this._redirectToIssues.bind(this));
   }
 

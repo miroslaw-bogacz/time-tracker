@@ -11,6 +11,7 @@ import { StoreConfig } from '@ngrx/store/src/store_module';
 import { AccountModule } from './account/account.module';
 import { IssuesModule } from './issues/issues.module';
 import { WorklogsModule } from './worklogs/worklogs.module';
+import { ToastMessagesModule } from './shared/toast-messages/toast-messages.module';
 
 const reducers: ActionReducerMap<any> = { };
 
@@ -36,6 +37,7 @@ const metaReducers: ActionReducer<any, any>[] = [ localStorageSyncReducer ];
     AccountModule,
     IssuesModule,
     WorklogsModule,
+    ToastMessagesModule,
   ],
 
   providers: [],
