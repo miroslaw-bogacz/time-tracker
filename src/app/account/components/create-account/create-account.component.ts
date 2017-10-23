@@ -28,8 +28,6 @@ export class CreateAccountComponent implements OnInit {
 
   public isPending$: Observable<boolean>;
 
-  public isError$: Observable<boolean>;
-
   constructor(
     private _fb: FormBuilder,
     private _accountStore: Store<IAccountReducers>,
@@ -38,7 +36,6 @@ export class CreateAccountComponent implements OnInit {
   public ngOnInit(): void {
     this.createAccount$ = this._accountStore.select(path([ 'account', 'createAccount' ]));
     this.isPending$ = this.createAccount$.map(prop('isPending'));
-    this.isError$ = this.createAccount$.map(prop('isError'));
 
     this.form = this._getForm();
   }

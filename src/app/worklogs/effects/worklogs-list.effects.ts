@@ -6,6 +6,7 @@ import { prop, pathEq, pathOr, complement, path, pipe, flatten, map } from 'ramd
 import * as moment from 'moment';
 
 import * as worklogsListActions from '../actions/worklogs-list.actions';
+import * as toastMessagesActions from '../../shared/toast-messages/actions/toast-messages.actions';
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
 
 function toJson(response: any) {
@@ -91,11 +92,18 @@ export class WorklogsListEffects {
 
   private _syncWorklog$(worklog: any) {
     const { SyncWorklogSuccess, SyncWorklogError } = worklogsListActions;
+    const { AddError, AddSuccess } = toastMessagesActions;
     const { issueId, id, started, timeSpentSeconds } = worklog;
     const worklogData = { started, timeSpentSeconds };
 
     return this._jiraIssuesService.putWorklog(issueId, id, worklogData)
-      .map(response => new SyncWorklogSuccess(toJson(response)))
-      .catch(error => Observable.of(new SyncWorklogError(toJson(error))));
+      .concatMap(response => [
+        new SyncWorklogSuccess(toJson(response)),
+        new AddSuccess({ content: 'Your work log has been saved' }),
+      ])
+      .catch(error => Observable.from([
+        new SyncWorklogError(toJson(error)),
+        ...toJson(error).errorMessages.map(content => new AddError({ content })),
+      ]));
   }
 }
