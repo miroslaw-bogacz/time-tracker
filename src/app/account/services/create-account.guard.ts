@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { IAccountState } from '../models/i-account-state.model';
 import { IAccountReducers } from '../models/i-account-reducers.model';
+import { IAccount } from '../models/i-account.model';
 
 @Injectable()
 export class CreateAccountGuard implements CanActivate {
@@ -14,7 +15,7 @@ export class CreateAccountGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this._store.select('account', 'account', 'model')
-      .map((model: any) => {
+      .map((model: IAccount) => {
         const hasAccount = !!model;
 
         if (hasAccount) {
