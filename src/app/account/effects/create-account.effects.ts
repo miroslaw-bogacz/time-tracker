@@ -12,6 +12,7 @@ import * as toastMessagesListActions from '../../shared/toast-messages/actions/t
 import { JiraRequestOptionsService } from '../../shared/jira-api/services/jira-request-options.service';
 import { JiraUserService } from '../../shared/jira-api/services/jira-user.service';
 import { getHeaderOptionsByAccount } from '../../core/helpers/get-header-options-by-account.helper';
+import { IAccount } from '../models/i-account.model';
 
 @Injectable()
 export class CreateAccountEffects {
@@ -29,22 +30,21 @@ export class CreateAccountEffects {
     private _electron: ElectronService,
   ) {}
 
-  private _setApiOptions(options): void {
+  private _setApiOptions(account: IAccount): void {
     const { app } = this._electron.remote.require('electron');
     const fs = this._electron.remote.require('fs');
     const path = app.getPath('userData');
 
-
     try {
-      fs.writeFileSync(path + '/domain', options.www);
+      fs.writeFileSync(path + '/domain', account.www);
     } catch (error) {
       console.log(error);
     }
 
-    this._jiraRequestOptionsService.setOptions(getHeaderOptionsByAccount(options));
+    this._jiraRequestOptionsService.setOptions(getHeaderOptionsByAccount(account));
   }
 
-  private _verification(account): Observable<Action> {
+  private _verification(account: IAccount): Observable<Action> {
     return this._jiraUserService.getCurrentUser()
       .concatMap(response => Observable.from([
         new createActions.VerificationAccountSuccess(),

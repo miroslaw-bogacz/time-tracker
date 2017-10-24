@@ -8,6 +8,8 @@ import * as moment from 'moment';
 import * as worklogsListActions from '../actions/worklogs-list.actions';
 import * as toastMessagesActions from '../../shared/toast-messages/actions/toast-messages.actions';
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
+import { IAccountReducers } from '../../account/models/i-account-reducers.model';
+import { IAccount } from '../../account/models/i-account.model';
 
 function toJson(response: any) {
   try {
@@ -18,7 +20,7 @@ function toJson(response: any) {
 }
 
 const getIssuesProp = pathOr([], [ 'issues' ]);
-const isCurrentUser = (account: any) => pathEq([ 'author', 'name' ], account.username);
+const isCurrentUser = (account: IAccount) => pathEq([ 'author', 'name' ], account.username);
 
 function compareDates(min, max) {
   return (worklogs) => worklogs
@@ -47,8 +49,8 @@ export class WorklogsListEffects {
     .map(prop('payload'))
     .switchMap(this._syncWorklog$.bind(this));
 
-  private get _account$(): Observable<any> {
-    return this._store.select(path([ 'account', 'account', 'model' ]))
+  private get _account$(): Observable<IAccount> {
+    return this._store.select('account', 'account', 'model')
   }
 
   constructor(

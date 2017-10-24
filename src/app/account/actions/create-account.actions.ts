@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { IAccount } from '../models/i-account.model';
 
 export const VERIFICATION_ACCOUNT = '[Create Account] verification account';
 export const VERIFICATION_ACCOUNT_SUCCESS = '[Create Account] verification account success';
@@ -6,7 +7,7 @@ export const VERIFICATION_ACCOUNT_ERROR = '[Create Account] verification account
 
 export class VerificationAccount implements Action {
   readonly type = VERIFICATION_ACCOUNT;
-  constructor(public payload: any) {}
+  constructor(public payload: IAccount) {}
 }
 
 export class VerificationAccountSuccess implements Action {
