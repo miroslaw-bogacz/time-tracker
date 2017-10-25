@@ -8,6 +8,10 @@ export const SYNC_WORKLOG = '[Worklogs] [Worklogs list] sync worklog';
 export const SYNC_WORKLOG_SUCCESS = '[Worklogs] [Worklogs list] sync worklog success';
 export const SYNC_WORKLOG_ERROR = '[Worklogs] [Worklogs list] sync worklog error';
 
+export const REMOVE_WORKLOG = '[Worklogs] [Worklogs list] remove worklog';
+export const REMOVE_WORKLOG_SUCCESS = '[Worklogs] [Worklogs list] remove worklog success';
+export const REMOVE_WORKLOG_ERROR = '[Worklogs] [Worklogs list] remove worklog error';
+
 export class FetchWorklogsList implements Action {
   readonly type = FETCH_WORKLOGS_LIST;
   constructor(public payload: any) {}
@@ -38,10 +42,28 @@ export class SyncWorklogError implements Action {
   constructor(public payload: any) {}
 }
 
+export class RemoveWorklog implements Action {
+  readonly type = REMOVE_WORKLOG;
+  constructor(public payload: string) {}
+}
+
+export class RemoveWorklogSuccess implements Action {
+  readonly type = REMOVE_WORKLOG_SUCCESS;
+  constructor(public payload: string) {}
+}
+
+export class RemoveWorklogError implements Action {
+  readonly type = REMOVE_WORKLOG_ERROR;
+  constructor(public payload: any) {}
+}
+
 export type WorklogsListActions =
   FetchWorklogsList
   | FetchWorklogsListSuccess
   | FetchWorklogsListError
   | SyncWorklog
   | SyncWorklogSuccess
-  | SyncWorklogError;
+  | SyncWorklogError
+  | RemoveWorklog
+  | RemoveWorklogSuccess
+  | RemoveWorklogError;

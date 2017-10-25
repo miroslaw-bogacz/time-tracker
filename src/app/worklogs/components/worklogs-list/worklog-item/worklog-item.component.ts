@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
-import { pipe } from 'ramda';
+import { pipe, pick } from 'ramda';
 
 import { timeHoursAndMinutes } from '../../../../core/helpers/patterns/time-hours-and-minutes.pattern';
 import { stringTimeToSeconds } from '../../../../core/helpers/string-time-to-seconds.helper';
@@ -23,6 +23,8 @@ const clearTimeSpent = (time) => time
 export class WorklogItemComponent implements OnInit {
 
   @Output() public saveClick: EventEmitter<any> = new EventEmitter();
+
+  @Output() public removeClick: EventEmitter<any> = new EventEmitter();
 
   @Input() public worklog: any;
 
@@ -59,6 +61,10 @@ export class WorklogItemComponent implements OnInit {
     };
 
     this.saveClick.emit(worklog);
+  }
+
+  public onRemoveClick(): void {
+    this.removeClick.emit(pick([ 'issueId', 'id' ], this.worklog));
   }
 
   public showEdit(): void {

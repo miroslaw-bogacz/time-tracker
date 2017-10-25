@@ -15,7 +15,8 @@
                 [disabled]="timeSpentControl.invalid || dateControl.invalid"
         ><i class="fa fa-save"></i></button>
 
-        <button class="btn btn-danger" (click)="hideEdit()"><i class="fa fa-ban"></i></button>
+        <button class="btn btn-danger" (click)="onRemoveClick()"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-warning" (click)="hideEdit()"><i class="fa fa-ban"></i></button>
       </div>
     </div>
   </div>

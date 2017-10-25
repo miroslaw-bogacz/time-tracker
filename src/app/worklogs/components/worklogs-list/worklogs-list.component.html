@@ -8,7 +8,10 @@
     <li class="list-group-item flex-column align-items-start"
         *ngFor="let worklog of worklogsGroup.worklogs  | orderByDate: 'started'"
     >
-      <wl-worklog-item [worklog]="worklog" (saveClick)="onSaveClick($event)"></wl-worklog-item>
+      <wl-worklog-item [worklog]="worklog"
+                       (saveClick)="onSaveClick($event)"
+                       (removeClick)="onRemoveClick($event)"
+      ></wl-worklog-item>
     </li>
   </ul>
 </div>

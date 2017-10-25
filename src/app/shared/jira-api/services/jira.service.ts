@@ -38,6 +38,10 @@ export class JiraService {
     return this.http.get(this.url(type, urlData, jqlQuery, urlQuery), this.requestOptions);
   }
 
+  public delete(type: string, urlData?: any, jqlQuery: string = '', urlQuery: any = {}): Observable<Response> {
+    return this.http.delete(this.url(type, urlData, jqlQuery, urlQuery), this.requestOptions);
+  }
+
   public post(type: string, urlData: any, postData: any): Observable<Response> {
     return this.http.post(this.url(type, urlData), postData, this.requestOptions);
   }

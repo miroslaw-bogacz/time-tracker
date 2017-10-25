@@ -1,4 +1,4 @@
-import { pathOr } from 'ramda';
+import { pathOr, complement, propEq } from 'ramda';
 
 import { IWorklogsListState } from '../models/i-worklogs-list-state.model';
 import * as worklogsListActions from '../actions/worklogs-list.actions';
@@ -37,6 +37,15 @@ export function worklogsListReducer(
       return { ...state, isPending: false, model: state.model.map(mergeSyncWorklog(action.payload)) };
 
     case worklogsListActions.SYNC_WORKLOG_ERROR:
+      return { ...state, isPending: false, isError: true, errors: getErrorsFromPayload(action.payload) };
+
+    case worklogsListActions.REMOVE_WORKLOG:
+      return { ...state, isPending: true, isError: false, errors: [] };
+
+    case worklogsListActions.REMOVE_WORKLOG_SUCCESS:
+      return { ...state, isPending: false, model: state.model.filter(complement(propEq('id', action.payload))) };
+
+    case worklogsListActions.REMOVE_WORKLOG_ERROR:
       return { ...state, isPending: false, isError: true, errors: getErrorsFromPayload(action.payload) };
 
     default:
