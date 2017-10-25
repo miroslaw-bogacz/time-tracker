@@ -9,6 +9,7 @@ import * as worklogsListActions from '../actions/worklogs-list.actions';
 import * as toastMessagesActions from '../../shared/toast-messages/actions/toast-messages.actions';
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
 import { IAccount } from '../../account/models/i-account.model';
+import { getErrorsFromPayload } from '../../core/helpers/get-errors-from-payload';
 
 function toJson(response: any) {
   try {
@@ -53,6 +54,11 @@ export class WorklogsListEffects {
     .ofType(worklogsListActions.SYNC_WORKLOG)
     .map(prop('payload'))
     .switchMap(this._syncWorklog$.bind(this));
+
+  @Effect() public removeWorklog$: Observable<Action> = this._actions$
+    .ofType(worklogsListActions.REMOVE_WORKLOG)
+    .map(prop('payload'))
+    .switchMap(this._removeWorklog$.bind(this));
 
   private get _account$(): Observable<IAccount> {
     return this._store.select('account', 'account', 'model')
@@ -130,6 +136,19 @@ export class WorklogsListEffects {
       .catch(error => Observable.from([
         new SyncWorklogError(toJson(error)),
         ...toJson(error).errorMessages.map(content => new AddError({ content })),
+      ]));
+  }
+
+  private _removeWorklog$(data: any): Observable<Action> {
+    return this._jiraIssuesService.deleteWorklog(data.issueId, data.id)
+      .map(toJson)
+      .concatMap((response) => [
+        new worklogsListActions.RemoveWorklogSuccess(data.id),
+        new toastMessagesActions.AddSuccess({ content: 'work log has been removed' }),
+      ])
+      .catch((response) => Observable.from([
+        new worklogsListActions.RemoveWorklogError(toJson(response)),
+        new toastMessagesActions.AddError({ content: getErrorsFromPayload(toJson(response)) }),
       ]));
   }
 }

@@ -57,4 +57,8 @@ export class WorklogsListComponent implements OnInit {
     this._store.dispatch(new worklogsListActions.SyncWorklog(worklog));
   }
 
+  public onRemoveClick(data: any): void {
+    this._store.dispatch(new worklogsListActions.RemoveWorklog(data))
+  }
+
 }
