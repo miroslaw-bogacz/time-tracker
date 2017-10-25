@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
-import { prop, pathEq, pathOr, complement, path, pipe, flatten, map } from 'ramda';
+import { prop, pathEq, pathOr, complement, path, pipe, flatten, map, range } from 'ramda';
 import * as moment from 'moment';
 
 import * as worklogsListActions from '../actions/worklogs-list.actions';
 import * as toastMessagesActions from '../../shared/toast-messages/actions/toast-messages.actions';
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
-import { IAccountReducers } from '../../account/models/i-account-reducers.model';
 import { IAccount } from '../../account/models/i-account.model';
 
 function toJson(response: any) {
@@ -19,13 +18,18 @@ function toJson(response: any) {
   }
 }
 
-const getIssuesProp = pathOr([], [ 'issues' ]);
-const isCurrentUser = (account: IAccount) => pathEq([ 'author', 'name' ], account.username);
-
 function compareDates(min, max) {
   return (worklogs) => worklogs
     .filter(worklog => moment(worklog.started).isSameOrAfter(min) && moment(worklog.started).isSameOrBefore(max));
 }
+
+const getGroupedRequests = (requests: any[], groupBy: number) =>
+  range(0, requests.length / groupBy)
+    .map((_, index) => Observable.merge(...requests.slice(index * groupBy, (index + 1) * groupBy)));
+
+const getIssuesProp = pathOr([], [ 'issues' ]);
+const isCurrentUser = (account: IAccount) => pathEq([ 'author', 'name' ], account.username);
+
 
 const getWorklogs = pipe(
   path([ 'worklogs' ]),
@@ -42,6 +46,7 @@ export class WorklogsListEffects {
   @Effect() public fetchWorklogsList$: Observable<Action> = this._actions$
     .ofType(worklogsListActions.FETCH_WORKLOGS_LIST)
     .map(prop('payload'))
+    .switchMap(this._fetchWorklogsListIssues$.bind(this))
     .switchMap(this._fetchWorklogsList$.bind(this));
 
   @Effect() public syncWorklog$: Observable<Action> = this._actions$
@@ -59,12 +64,12 @@ export class WorklogsListEffects {
     private _store: Store<any>,
   ) {}
 
-  private _fetchIssues$(from: string, to: string) {
-    const jql = `worklogDate >=  '${from}' AND worklogDate <= '${to}' AND worklogAuthor = currentUser()`;
-    const urlQuery = { maxResults: 1000, fields: '' };
+  private _fetchIssues$(from: string, to: string, startAt: number) {
+    const jql = `worklogDate >= '${from}' AND worklogDate <= '${to}' AND worklogAuthor = currentUser()`;
+    const urlQuery = { maxResults: 100, startAt, fields: '' };
 
     return this._jiraIssuesService.getList(jql, urlQuery)
-      .map(pipe(toJson, getIssuesProp));
+      .map(toJson);
   }
 
   private _fetchWorklogs$(key: string) {
@@ -75,21 +80,40 @@ export class WorklogsListEffects {
       .map(([ response, account ]) => ({ ...response, worklogs: response.worklogs.filter(isCurrentUser(account)) }));
   }
 
-  private _fetchWorklogsList$(filters: any) {
+  private _fetchWorklogsList$({ issues, filters }) {
     const getWorklogsWithIssue = pipe(getPayload, compareDates(filters.from, filters.to));
+    const requests = issues.map(issue => this._fetchWorklogs$(issue.key));
 
-    return this._fetchIssues$(filters.from, filters.to)
-      .map((issues: any) => ({ issues, requests: issues.map(issue => this._fetchWorklogs$(issue.key)) }))
-      .switchMap(
-        ({ issues, requests }) =>
-          requests.length > 0
-            ? Observable
-                .concat(...requests)
-                .bufferCount(requests.length)
-                .map((worklogs: any) => getWorklogsWithIssue({ issues, worklogs }))
-                .switchMap((worklogs: any) => Observable.of(new worklogsListActions.FetchWorklogsListSuccess(worklogs)))
-            : Observable.of(new worklogsListActions.FetchWorklogsListSuccess([])),
-      );
+    return requests.length > 0
+      ? Observable
+          .concat(...getGroupedRequests(requests, 10))
+          .bufferCount(requests.length)
+          .map((worklogs: any) => getWorklogsWithIssue({ issues, worklogs }))
+          .switchMap((worklogs: any) => Observable.of(new worklogsListActions.FetchWorklogsListSuccess(worklogs)))
+      : Observable.of(new worklogsListActions.FetchWorklogsListSuccess([]));
+  }
+
+  private _fetchWorklogsListIssues$(filters: any) {
+    const { from, to } = filters;
+
+    return this._fetchIssues$(from, to, 0)
+      .map(({ total, maxResults, startAt, issues }) => ({
+        starts: range(1, total / maxResults).map(page => (page * maxResults)),
+        issues,
+      }))
+      .map(({ starts, issues }) => ({
+        requests: starts.map((startAt: number) => this._fetchIssues$(from, to, startAt)),
+        issues,
+      }))
+      .switchMap(data => data.requests.length > 0
+        ? Observable
+            .concat(...data.requests)
+            .map(getIssuesProp)
+            .startWith(data.issues)
+            .bufferCount(data.requests.length + 1)
+            .map((groups) => ({ issues: [ ...flatten(groups) ], filters }))
+        : Observable.of({ issues: data.issues, filters }),
+      )
   }
 
   private _syncWorklog$(worklog: any) {
