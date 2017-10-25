@@ -46,7 +46,7 @@ export class WorklogsListComponent implements OnInit {
 
     this.worklogsList$ = this._store.select(path([ 'worklogs', 'worklogsList', 'model' ]))
       .filter(Boolean)
-      .map(groupBy((worklog: any) => moment(worklog.started).format('LL')))
+      .map(groupBy((worklog: any) => moment(worklog.started).format('dddd, LL')))
       .map(worklogs => Object.keys(worklogs).reduce(createGroup(worklogs), []));
 
     this.isPending$ = this._store.select(path([ 'worklogs', 'worklogsList', 'isPending' ]))
