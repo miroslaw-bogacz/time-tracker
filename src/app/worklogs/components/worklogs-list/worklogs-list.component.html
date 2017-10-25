@@ -1,6 +1,10 @@
 <div *ngIf="worklogsList$ | async as worklogsGroups">
   <ul class="list-group" *ngFor="let worklogsGroup of worklogsGroups | orderByDate: 'group.day'">
-    <li class="list-group-item active">{{ worklogsGroup.group.day }} ({{ worklogsGroup.group.timeSpent }})</li>
+    <li class="list-group-item flex-column align-items-start active">
+      <div class="d-flex w-100 justify-content-between">
+        <span>{{ worklogsGroup.group.day }}</span> <span>{{ worklogsGroup.group.timeSpent }}</span>
+      </div>
+    </li>
     <li class="list-group-item flex-column align-items-start"
         *ngFor="let worklog of worklogsGroup.worklogs  | orderByDate: 'started'"
     >
