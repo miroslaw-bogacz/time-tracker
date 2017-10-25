@@ -98,7 +98,7 @@ export class WorklogsListEffects {
 
     return this._fetchIssues$(from, to, 0)
       .map(({ total, maxResults, startAt, issues }) => ({
-        starts: range(1, total / maxResults).map(page => (page * maxResults) + 1),
+        starts: range(1, total / maxResults).map(page => (page * maxResults)),
         issues,
       }))
       .map(({ starts, issues }) => ({
@@ -111,7 +111,7 @@ export class WorklogsListEffects {
             .map(getIssuesProp)
             .startWith(data.issues)
             .bufferCount(data.requests.length + 1)
-            .map((groups) => ({ issues: [ ...data.issues, ...flatten(groups) ], filters }))
+            .map((groups) => ({ issues: [ ...flatten(groups) ], filters }))
         : Observable.of({ issues: data.issues, filters }),
       )
   }
