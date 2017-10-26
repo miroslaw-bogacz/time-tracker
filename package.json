@@ -11,7 +11,7 @@
     "build:electron": "npm run build && cp -a electron/. dist",
     "build:electron:prod": "npm run build --prod && cp -a electron/. dist",
     "lint": "ng lint --type-check --format=stylish",
-    "package:macos": "node ./build/scripts/build-release.js",
+    "package:macos": "npm run build:electron:prod && node ./build/scripts/build-release.js",
     "precommit": "npm run lint"
   },
   "private": false,
