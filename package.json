@@ -11,7 +11,7 @@
     "build:electron": "npm run build && cp -a electron/. dist",
     "build:electron:prod": "npm run build --prod && cp -a electron/. dist",
     "lint": "ng lint --type-check --format=stylish",
-    "package:macos": "npm run build:electron:prod && node package.js --asar --platform=darwin --arch=x64",
+    "package:macos": "node ./build/scripts/build-release.js",
     "precommit": "npm run lint"
   },
   "private": false,
@@ -32,7 +32,9 @@
     "core-js": "^2.4.1",
     "electron": "^1.7.9",
     "electron-devtools-installer": "^2.2.0",
+    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^9.1.0",
+    "fs-extra": "^4.0.2",
     "husky": "^0.14.3",
     "moment": "^2.19.1",
     "ngrx-store-localstorage": "^0.2.3",
