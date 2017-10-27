@@ -13,6 +13,7 @@ before_install:
   - "echo -e repo_token: $GITHUB_TOKEN >> $TRAVIS_BUILD_DIR/.coveralls.yml"
 
 before_script:
+  - npm install -g codecov
   - npm install -g --silent @angular/cli
   - npm install -g --silent yarn
   - yarn install
@@ -20,3 +21,5 @@ before_script:
 script:
   - npm run lint
   - npm run build:electron
+  - codecov
+  - cat ./coverage/coverage.lcov | ./node_modules/coveralls/bin/coveralls.js
