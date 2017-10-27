@@ -17,7 +17,7 @@ before_script:
   - npm install -g --silent @angular/cli
   - npm install -g --silent yarn
   - yarn install
-  - ng test --watch=false --code-coverage --silent
+  - ng test --watch=false --code-coverage --silent >> /dev/null
 
 script:
   - codecov
