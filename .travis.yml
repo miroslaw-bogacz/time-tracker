@@ -9,6 +9,9 @@ cache:
   directories:
      - ./node_modules
 
+before_install:
+  - echo -e "repo_token: $REPO_TOKEN" >> ~/.coveralls.yml
+
 before_script:
   - npm install -g --silent @angular/cli
   - npm install -g --silent yarn
