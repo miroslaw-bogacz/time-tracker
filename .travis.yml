@@ -19,7 +19,7 @@ before_script:
   - yarn install
 
 script:
-  - npm run lint
-  - npm run build:electron
   - codecov
   - cat ./coverage/coverage.lcov | ./node_modules/coveralls/bin/coveralls.js
+  - npm run lint
+  - npm run build:electron
