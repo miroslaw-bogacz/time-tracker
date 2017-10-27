@@ -1,0 +1,19 @@
+language: node_js
+sudo: false
+dist: trusty
+node_js:
+  - '6.11.5'
+
+cache:
+  yarn: true
+  directories:
+     - ./node_modules
+
+before_script:
+  - npm install -g --silent @angular/cli
+  - npm install -g --silent yarn
+  - yarn install
+
+script:
+  - npm run lint
+  - npm run build:electron

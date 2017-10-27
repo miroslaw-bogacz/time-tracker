@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/miroslaw-bogacz/time-tracker.svg?branch=development%2Ftravis-ci)](https://travis-ci.org/miroslaw-bogacz/time-tracker)
+
 # Time Tracker
 
 ## Development
