@@ -10,7 +10,8 @@ cache:
      - ./node_modules
 
 before_install:
-  - pwd
+  - echo -e "repo_token: $GITHUB_TOKEN" >> $TRAVIS_BUILD_DIR/.coveralls.yml
+  - echo << $TRAVIS_BUILD_DIR/.coveralls.yml
 
 before_script:
   - npm install -g --silent @angular/cli
