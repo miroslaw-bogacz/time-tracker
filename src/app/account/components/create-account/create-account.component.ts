@@ -4,7 +4,6 @@ import { assoc, dissoc, pipe, path, prop } from 'ramda';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/';
 
-import { IAccountReducers } from '../../models/i-account-reducers.model';
 import { VerificationAccount } from '../../actions/create-account.actions';
 import { urlPattern } from '../../../core/helpers/patterns/url.pattern';
 import { ICreateAccountState } from '../../models/i-create-account-state.model';
