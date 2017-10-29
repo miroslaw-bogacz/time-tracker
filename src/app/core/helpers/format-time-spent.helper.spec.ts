@@ -1,6 +1,6 @@
 import { formatTimeSpent } from './format-time-spent.helper';
 
-fdescribe('formatTimeSpent', () => {
+describe('formatTimeSpent', () => {
 
   describe('when call with 0sec', () => {
     it('should return 00:00:00', () => {
