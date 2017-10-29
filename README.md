@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/miroslaw-bogacz/time-tracker.svg?branch=development%2Ftravis-ci)](https://travis-ci.org/miroslaw-bogacz/time-tracker)
-
+[![Coverage Status](https://coveralls.io/repos/github/miroslaw-bogacz/time-tracker/badge.svg?branch=development%2Fadd-integration-with-coveralls)](https://coveralls.io/github/miroslaw-bogacz/time-tracker?branch=development%2Fadd-integration-with-coveralls)
 # Time Tracker
 
 ## Development
