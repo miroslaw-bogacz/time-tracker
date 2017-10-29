@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/';
 import { Store } from '@ngrx/store';
-import { path, find, propEq } from 'ramda';
+import { path, find, propEq, isEmpty, complement } from 'ramda';
 
 import { formatTimeSpent } from '../../../../core/helpers/format-time-spent.helper';
 import { reduceActivitiesToTimeSpent } from '../../../helpers/reduce-activities.helper';
@@ -27,6 +27,7 @@ export class IssueItemComponent implements OnInit {
 
   ngOnInit() {
     this.worklog$ = this._store.select(path([ 'issues', 'worklogsList', 'model' ]))
+      .filter(complement(isEmpty))
       .map(find(propEq('id', this.issue.id)));
 
     this.timeSpent$ = Observable

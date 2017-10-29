@@ -49,8 +49,7 @@ export class WorklogsListComponent implements OnInit {
       .map(groupBy((worklog: any) => moment(worklog.started).format('dddd, LL')))
       .map(worklogs => Object.keys(worklogs).reduce(createGroup(worklogs), []));
 
-    this.isPending$ = this._store.select(path([ 'worklogs', 'worklogsList', 'isPending' ]))
-      .select((state) => state.history.historyList.pending);
+    this.isPending$ = this._store.select(path([ 'worklogs', 'worklogsList', 'isPending' ]));
   }
 
   public onSaveClick(worklog: any): void {

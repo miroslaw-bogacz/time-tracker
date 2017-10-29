@@ -23,9 +23,9 @@
 
   <p>
     <button class="btn btn-sm btn-info" (click)="showEdit()"><i class="fa fa-pencil"></i></button>
-    {{ worklog.issue.key }} - {{ worklog.issue.fields.summary }}
+    {{ worklog.issue.key }} - {{ worklog.issue.fields?.summary }}
 
-    <small class="text-muted" *ngIf="worklog.issue.fields.parent as parent">
+    <small class="text-muted" *ngIf="worklog.issue.fields?.parent as parent">
       {{ parent.fields.summary }}
     </small>
   </p>
