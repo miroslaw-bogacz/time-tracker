@@ -26,7 +26,10 @@ export class IssuesComponent implements OnInit {
     const issuesListIsPending$: Observable<boolean> = this._store
       .select(path([ 'issues', 'issuesList', 'isPending' ]));
 
-    this.isPending$ = Observable.merge(projectsListIsPending$, issuesListIsPending$)
+    const worklogsListIsPending$: Observable<boolean> = this._store
+      .select(path([ 'issues', 'worklogsList', 'isPending' ]));
+
+    this.isPending$ = Observable.merge(projectsListIsPending$, issuesListIsPending$, worklogsListIsPending$)
       .distinctUntilChanged();
   }
 
