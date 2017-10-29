@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/';
 import { Store } from '@ngrx/store';
-import { path, find, propEq, isEmpty, complement } from 'ramda';
+import { path, pathOr, find, propEq, isEmpty, complement } from 'ramda';
 
 import { formatTimeSpent } from '../../../../core/helpers/format-time-spent.helper';
 import { reduceActivitiesToTimeSpent } from '../../../helpers/reduce-activities.helper';
@@ -20,6 +20,10 @@ export class IssueItemComponent implements OnInit {
   public worklog$: Observable<any>;
 
   public timeSpent$: Observable<string>;
+
+  public get status(): string {
+    return pathOr(null, [ 'fields', 'status', 'name' ], this.issue);
+  }
 
   constructor(
     private _store: Store<any>,
