@@ -25,6 +25,10 @@ export class IssueItemComponent implements OnInit {
     return pathOr(null, [ 'fields', 'status', 'name' ], this.issue);
   }
 
+  public get priority(): any {
+    return pathOr(null, [ 'fields', 'priority' ], this.issue);
+  }
+
   constructor(
     private _store: Store<any>,
   ) { }

@@ -24,6 +24,11 @@ describe('IssueItemComponent', () => {
       status: {
         name: 'To Do',
       },
+
+      priority: {
+        iconUrl: 'http://domain.com/image-test.jpg',
+        name: 'Medium',
+      },
     },
   };
 
@@ -54,10 +59,18 @@ describe('IssueItemComponent', () => {
     expect(parentComponent).toBeTruthy();
   });
 
-  describe('when component.issue has value', () => {
+  describe('when status has been call', () => {
 
-    it('should status return To Do value', () => {
+    it('should return', () => {
       expect(component.status).toEqual('To Do');
+    });
+
+  });
+
+  describe('when priority has been call', () => {
+
+    it('should return', () => {
+      expect(component.priority).toEqual(mockedIssue.fields.priority);
     });
 
   });
