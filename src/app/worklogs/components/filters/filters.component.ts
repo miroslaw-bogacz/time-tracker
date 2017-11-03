@@ -29,8 +29,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._filters$ = this._store.select(path([ 'worklogs', 'filters', 'model' ]));
 
-    const from = moment().startOf('month').format('YYYY-MM-DD');
-    const to = moment().endOf('month').format('YYYY-MM-DD');
+    const from = moment().startOf('isoWeek').format('YYYY-MM-DD');
+    const to = moment().endOf('isoWeek').format('YYYY-MM-DD');
 
     this.form = this._getForm();
 
