@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { path, groupBy, equals, complements } from 'ramda';
+import { path, groupBy, equals, complements, pipe, pluck, sum, multiply } from 'ramda';
 import * as moment from 'moment';
 
 import * as worklogsListActions from '../../actions/worklogs-list.actions';
@@ -26,6 +26,9 @@ export class WorklogsListComponent implements OnInit {
 
   public worklogsList$: Observable<any[]>;
 
+  public worklogsListGrouped$: Observable<any[]>;
+
+  public groupedTimeSpent$: Observable<string>;
 
   public isPending$: Observable<boolean>;
 
@@ -45,9 +48,14 @@ export class WorklogsListComponent implements OnInit {
       .subscribe((action: any) => this._store.dispatch(action));
 
     this.worklogsList$ = this._store.select(path([ 'worklogs', 'worklogsList', 'model' ]))
-      .filter(Boolean)
+      .filter(Boolean);
+
+    this.worklogsListGrouped$ = this.worklogsList$
       .map(groupBy((worklog: any) => moment(worklog.started).format('dddd, LL')))
       .map(worklogs => Object.keys(worklogs).reduce(createGroup(worklogs), []));
+
+    this.groupedTimeSpent$ = this.worklogsList$
+      .map(pipe(pluck('timeSpentSeconds'), sum, multiply(1000), formatTimeSpent));
 
     this.isPending$ = this._store.select(path([ 'worklogs', 'worklogsList', 'isPending' ]));
   }

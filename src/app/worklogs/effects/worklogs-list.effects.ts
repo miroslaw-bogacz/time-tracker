@@ -21,7 +21,10 @@ function toJson(response: any) {
 
 function compareDates(min, max) {
   return (worklogs) => worklogs
-    .filter(worklog => moment(worklog.started).isSameOrAfter(min) && moment(worklog.started).isSameOrBefore(max));
+    .filter(worklog => {
+      const date = moment(worklog.started).format('YYYY-MM-DD');
+      return moment(date).isSameOrAfter(min) && moment(date).isSameOrBefore(max);
+    });
 }
 
 const getGroupedRequests = (requests: any[], groupBy: number) =>
