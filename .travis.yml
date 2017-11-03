@@ -11,6 +11,7 @@ cache:
 
 before_install:
   - "echo -e repo_token: $GITHUB_TOKEN >> $TRAVIS_BUILD_DIR/.coveralls.yml"
+  - cp $TRAVIS_BUILD_DIR/config/rollbar.example.json $TRAVIS_BUILD_DIR/config/rollbar.json
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
