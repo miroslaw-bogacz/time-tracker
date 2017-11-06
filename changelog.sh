@@ -14,6 +14,18 @@ then
     done <<< "$git_logs_features"
 fi
 
+git_logs_layouts=$(grep 'layout/' --ignore-case <<< "$git_logs")
+
+if [ "$git_logs_layouts" ]
+then
+    echo ""
+    echo "## Layouts"
+    while IFS= read -r line
+    do
+        echo "- $line"
+    done <<< "$git_logs_layouts"
+fi
+
 git_logs_bugfixes=$(grep 'bugfix/' --ignore-case <<< "$git_logs")
 
 if [ "$git_logs_bugfixes" ]
