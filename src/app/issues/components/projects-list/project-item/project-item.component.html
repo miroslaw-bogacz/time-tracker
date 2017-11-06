@@ -1,4 +1,5 @@
-<div class="item" [ngClass]="{ 'item--active': project.isSelected }" (click)="onChangeProject($event)">
-  <span class="item__label">{{ project.key }}</span>
-  <img [src]="project.avatarUrls['48x48']" class="item__image">
+<div class="project-avatar"
+     [ngClass]="{ 'project-avatar--active': project.isSelected }"
+     (click)="onChangeProject($event)">
+  <span class="project-avatar__label">{{ project.key }}</span>
 </div>

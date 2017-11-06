@@ -1,0 +1,28 @@
+@import './variables';
+
+.project-avatar {
+  width: 70px;
+  height: 70px;
+  margin: 10px auto;
+  border: 1px solid #fff;
+  background: $project-avatar-background-color;
+  border-radius: 50%;
+  display: flex;
+  box-shadow: 0 0 6px #666666;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: .7;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover, &.project-avatar--active {
+    opacity: 1;
+  }
+}
+
+.project-avatar__label {
+  font-size: 18px;
+  font-weight: 700;
+  color: $project-avatar__label-text-color;
+}
