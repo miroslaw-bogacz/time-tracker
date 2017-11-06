@@ -1,0 +1,10 @@
+$white: #fff;
+$purple: #9138a1;
+$grey: #666;
+
+$sidebar-background-color: lighten($grey, 55%);
+
+$project-avatar-background-color: linear-gradient(to bottom, $purple 0%, darken($purple, 20%) 100%);
+$project-avatar-border-color: $white;
+$project-avatar-shadow-color: $grey;
+$project-avatar__label-text-color: $white;
