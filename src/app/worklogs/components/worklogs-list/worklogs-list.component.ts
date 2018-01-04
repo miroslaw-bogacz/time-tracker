@@ -68,4 +68,9 @@ export class WorklogsListComponent implements OnInit {
     this._store.dispatch(new worklogsListActions.RemoveWorklog(data))
   }
 
+  public onCopyClick(worklog: any): void {
+    const { issueId, started, timeSpentSeconds } = worklog;
+    this._store.dispatch(new worklogsListActions.CopyWorklog({ issueId, started, timeSpentSeconds }));
+  }
+
 }

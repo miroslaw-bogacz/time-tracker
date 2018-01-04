@@ -10,6 +10,7 @@ import * as toastMessagesActions from '../../shared/toast-messages/actions/toast
 import { JiraIssuesService } from '../../shared/jira-api/services/jira-issues.service';
 import { IAccount } from '../../account/models/i-account.model';
 import { getErrorsFromPayload } from '../../core/helpers/get-errors-from-payload';
+import { IFiltersState } from 'app/worklogs/models/i-filters-state.model';
 
 function toJson(response: any) {
   try {
@@ -63,8 +64,18 @@ export class WorklogsListEffects {
     .map(prop('payload'))
     .switchMap(this._removeWorklog$.bind(this));
 
+  @Effect() public copyWorklog$: Observable<Action> = this._actions$
+    .ofType(worklogsListActions.COPY_WORKLOG)
+    .map(prop('payload'))
+    .withLatestFrom(this._filters$)
+    .switchMap(this._copyWorklog$.bind(this));
+
   private get _account$(): Observable<IAccount> {
     return this._store.select('account', 'account', 'model')
+  }
+
+  private get _filters$(): Observable<any> {
+    return this._store.select('worklogs', 'filters', 'model');
   }
 
   constructor(
@@ -153,5 +164,25 @@ export class WorklogsListEffects {
         new worklogsListActions.RemoveWorklogError(toJson(response)),
         new toastMessagesActions.AddError({ content: getErrorsFromPayload(toJson(response)) }),
       ]));
+  }
+
+  private _getAddWorklogRequest(worklog: any): Observable<any> {
+    const { issueId, timeSpentSeconds, started } = worklog;
+    const startedDate = moment(started)
+      .day(moment().day())
+      .format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+
+    return this._jiraIssuesService.createWorklog(issueId, {
+      timeSpentSeconds, started: startedDate,
+    });
+  }
+
+  private _copyWorklog$([ worklog, filters ]): Observable<Action> {
+    const request$: Observable<any> = this._getAddWorklogRequest(worklog)
+
+    return request$.concatMap(response => [
+      new worklogsListActions.CopyWorklogSuccess(response),
+      new worklogsListActions.FetchWorklogsList(filters),
+    ])
   }
 }

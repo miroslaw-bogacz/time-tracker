@@ -12,6 +12,10 @@ export const REMOVE_WORKLOG = '[Worklogs] [Worklogs list] remove worklog';
 export const REMOVE_WORKLOG_SUCCESS = '[Worklogs] [Worklogs list] remove worklog success';
 export const REMOVE_WORKLOG_ERROR = '[Worklogs] [Worklogs list] remove worklog error';
 
+export const COPY_WORKLOG = '[Worklogs] [Worklogs list] copy worklog';
+export const COPY_WORKLOG_SUCCESS = '[Worklogs] [Worklogs list] copy worklog success';
+export const COPY_WORKLOG_ERROR = '[Worklogs] [Worklogs list] copy worklog error';
+
 export class FetchWorklogsList implements Action {
   readonly type = FETCH_WORKLOGS_LIST;
   constructor(public payload: any) {}
@@ -57,6 +61,21 @@ export class RemoveWorklogError implements Action {
   constructor(public payload: any) {}
 }
 
+export class CopyWorklog implements Action {
+  readonly type = COPY_WORKLOG;
+  constructor(public payload: any) {}
+}
+
+export class CopyWorklogSuccess implements Action {
+  readonly type = COPY_WORKLOG_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class CopyWorklogError implements Action {
+  readonly type = COPY_WORKLOG_ERROR;
+  constructor(public payload: any) {}
+}
+
 export type WorklogsListActions =
   FetchWorklogsList
   | FetchWorklogsListSuccess
@@ -66,4 +85,7 @@ export type WorklogsListActions =
   | SyncWorklogError
   | RemoveWorklog
   | RemoveWorklogSuccess
-  | RemoveWorklogError;
+  | RemoveWorklogError
+  | CopyWorklog
+  | CopyWorklogSuccess
+  | CopyWorklogError;

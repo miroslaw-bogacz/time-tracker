@@ -11,9 +11,10 @@
 
       <div class="col col-6">
         <button class="btn btn-success"
-                (click)="onSaveClick()"
-                [disabled]="timeSpentControl.invalid || dateControl.invalid"
-        ><i class="fa fa-save"></i></button>
+            (click)="onSaveClick()"
+            [disabled]="timeSpentControl.invalid || dateControl.invalid">
+          <i class="fa fa-save"></i>
+        </button>
 
         <button class="btn btn-danger" (click)="onRemoveClick()"><i class="fa fa-trash"></i></button>
         <button class="btn btn-warning" (click)="hideEdit()"><i class="fa fa-ban"></i></button>
@@ -22,6 +23,10 @@
   </div>
 
   <p>
+    <button class="btn btn-sm btn-primary" (click)="onClickCopy()">
+      <i class="fa fa-copy"></i>
+    </button>
+
     <button class="btn btn-sm btn-info" (click)="showEdit()"><i class="fa fa-pencil"></i></button>
     {{ worklog.issue.key }} - {{ worklog.issue.fields?.summary }}
 
