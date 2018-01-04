@@ -6,16 +6,17 @@
   <ul class="list-group" *ngFor="let worklogsGroup of worklogsGroups | orderByDate: 'group.day'">
     <li class="list-group-item flex-column align-items-start active">
       <div class="d-flex w-100 justify-content-between">
-        <span>{{ worklogsGroup.group.day }}</span> <span>{{ worklogsGroup.group.timeSpent }}</span>
+        <span>{{ worklogsGroup.group.day }}</span>
+        <span>{{ worklogsGroup.group.timeSpent }}</span>
       </div>
     </li>
     <li class="list-group-item flex-column align-items-start"
-        *ngFor="let worklog of worklogsGroup.worklogs  | orderByDate: 'started'"
-    >
+        *ngFor="let worklog of worklogsGroup.worklogs  | orderByDate: 'started'">
       <wl-worklog-item [worklog]="worklog"
-                       (saveClick)="onSaveClick($event)"
-                       (removeClick)="onRemoveClick($event)"
-      ></wl-worklog-item>
+        (saveClick)="onSaveClick($event)"
+        (removeClick)="onRemoveClick($event)"
+        (copyClick)="onCopyClick($event)">
+      </wl-worklog-item>
     </li>
   </ul>
 </div>

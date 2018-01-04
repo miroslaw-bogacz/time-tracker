@@ -26,6 +26,8 @@ export class WorklogItemComponent implements OnInit {
 
   @Output() public removeClick: EventEmitter<any> = new EventEmitter();
 
+  @Output() public copyClick: EventEmitter<any> = new EventEmitter();
+
   @Input() public worklog: any;
 
   public isVisible = false;
@@ -73,6 +75,10 @@ export class WorklogItemComponent implements OnInit {
 
   public hideEdit(): void {
     this.isVisible = false;
+  }
+
+  public onClickCopy(): void {
+    this.copyClick.emit(this.worklog);
   }
 
 }

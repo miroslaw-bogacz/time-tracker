@@ -15,7 +15,7 @@ describe('getErrorsFromPayload', () => {
     it('should return empty array', () => {
       const payload = {};
       const result = getErrorsFromPayload(payload);
-      console.log(result);
+
       expect(result).toEqual([]);
     });
   });
