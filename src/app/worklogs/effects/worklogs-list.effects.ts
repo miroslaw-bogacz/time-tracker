@@ -168,9 +168,7 @@ export class WorklogsListEffects {
 
   private _getAddWorklogRequest(worklog: any): Observable<any> {
     const { issueId, timeSpentSeconds, started } = worklog;
-    const startedDate = moment(started)
-      .day(moment().day())
-      .format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+    const startedDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
 
     return this._jiraIssuesService.createWorklog(issueId, {
       timeSpentSeconds, started: startedDate,
